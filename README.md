@@ -1,75 +1,69 @@
-# React + TypeScript + Vite
+# HH Goa 2026 — Frame & Builder ID Generator
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A web-based identity generator built for Hacker House Goa 2026.
 
-Currently, two official plugins are available:
+Users can upload their own photo and instantly create either an HH Goa 2026 profile-picture frame or a personalized Builder ID card.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Live Demo
 
-## React Compiler
+https://hhgoa-id-generator-ten.vercel.app/
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- HH Goa 2026 PFP frame generator
+- Personalized Builder ID generator
+- Automatic photo cropping for portrait, landscape, and square images
+- Face-friendly portrait cropping
+- JPG, PNG, HEIC and HEIF image support
+- Image size validation
+- Download generated graphics directly
+- Share generated graphics on X
+- Responsive mobile-first interface
+- HH Goa themed visual design
+- No manual image cropping required
 
-## Expanding the ESLint configuration
+## How It Works
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+1. Upload a photo.
+2. Select either:
+   - PFP Frame
+   - Builder ID
+3. For a Builder ID, enter your name and role.
+4. Generate the graphic.
+5. Download or share it.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+The generator automatically handles different photo orientations so users don't have to manually crop their photos before uploading.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Tech Stack
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- React
+- TypeScript
+- Vite
+- HTML Canvas API
+- CSS
+- Vercel
 
-```
+## Project Structure
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
-```
+```text
+src/
+├── canvas/
+│   ├── generatePfpFrame.ts
+│   ├── generateIdCard.ts
+│   └── imageUtils.ts
+│
+├── components/
+│   ├── Header.tsx
+│   ├── PhotoUploader.tsx
+│   ├── FormatSelector.tsx
+│   └── BuilderForm.tsx
+│
+├── data/
+│   └── builderTitles.ts
+│
+├── utils/
+│   ├── download.ts
+│   └── share.ts
+│
+├── App.tsx
+├── index.css
+└── main.tsx
