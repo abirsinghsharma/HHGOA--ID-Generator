@@ -1,4 +1,4 @@
-import { drawCoverImage, loadImage } from "./imageUtils";
+import { loadImage } from "./imageUtils";
 
 interface IdCardData {
   name: string;
@@ -14,6 +14,52 @@ const COLORS = {
   pink: "#FF2E7A",
   cream: "#F7F4E8",
   dark: "#003D29",
+};
+
+const drawSmartCoverImage = (
+  ctx: CanvasRenderingContext2D,
+  image: HTMLImageElement,
+  x: number,
+  y: number,
+  width: number,
+  height: number
+) => {
+  const imageRatio = image.width / image.height;
+  const boxRatio = width / height;
+
+  let sourceWidth = image.width;
+  let sourceHeight = image.height;
+  let sourceX = 0;
+  let sourceY = 0;
+
+  if (imageRatio > boxRatio) {
+    // Landscape image:
+    // crop horizontally from the center.
+    sourceWidth = image.height * boxRatio;
+    sourceX = (image.width - sourceWidth) / 2;
+  } else {
+    // Portrait / square image:
+    // crop vertically, but bias toward the upper part
+    // so faces are much less likely to be cut off.
+    sourceHeight = image.width / boxRatio;
+
+    const maxSourceY = image.height - sourceHeight;
+
+    // 15% from the top of the available crop range.
+    sourceY = maxSourceY * 0.15;
+  }
+
+  ctx.drawImage(
+    image,
+    sourceX,
+    sourceY,
+    sourceWidth,
+    sourceHeight,
+    x,
+    y,
+    width,
+    height
+  );
 };
 
 const drawPalmTree = (
@@ -315,13 +361,13 @@ ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
     ctx.clip();
 
-    drawCoverImage(
-      ctx,
-      image,
-      photoX,
-      photoY,
-      photoWidth,
-      photoHeight
+    drawSmartCoverImage(
+    ctx,
+    image,
+    photoX,
+    photoY,
+    photoWidth,
+    photoHeight
     );
 
     ctx.restore();
