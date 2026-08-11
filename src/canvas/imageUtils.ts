@@ -25,12 +25,39 @@ export const drawCoverImage = (
   let sourceX = 0;
   let sourceY = 0;
 
+  /*
+   * The destination card is landscape.
+   *
+   * For portrait images, a normal center crop often cuts
+   * off the person's head. We therefore bias the crop upward.
+   */
+
   if (imageRatio > boxRatio) {
+    // --------------------------------------------------
+    // LANDSCAPE IMAGE
+    // Crop horizontally.
+    // --------------------------------------------------
+
     sourceWidth = image.height * boxRatio;
+
     sourceX = (image.width - sourceWidth) / 2;
   } else {
+    // --------------------------------------------------
+    // PORTRAIT / SQUARE IMAGE
+    // Crop vertically.
+    // --------------------------------------------------
+
     sourceHeight = image.width / boxRatio;
-    sourceY = (image.height - sourceHeight) / 2;
+
+    /*
+     * Instead of centering the crop vertically, move it
+     * toward the top so faces and upper bodies remain visible.
+     *
+     * 0.15 means the crop is biased toward the top.
+     */
+    const availableCrop = image.height - sourceHeight;
+
+    sourceY = availableCrop * 0.15;
   }
 
   ctx.drawImage(
@@ -56,7 +83,13 @@ export const roundRect = (
 ) => {
   ctx.beginPath();
 
-  ctx.roundRect(x, y, width, height, radius);
+  ctx.roundRect(
+    x,
+    y,
+    width,
+    height,
+    radius
+  );
 
   ctx.closePath();
 };
