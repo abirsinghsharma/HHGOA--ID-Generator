@@ -36,17 +36,25 @@ function drawCoverImage(
   let sourceY = 0;
 
   if (imageRatio > boxRatio) {
+    // Landscape image:
+    // Crop from the sides and keep the center.
     sourceWidth =
       image.naturalHeight * boxRatio;
 
     sourceX =
       (image.naturalWidth - sourceWidth) / 2;
   } else {
+    // Portrait / square image:
+    // Crop vertically, but bias the crop upward
+    // so the person's face remains visible.
     sourceHeight =
       image.naturalWidth / boxRatio;
 
+    const availableCrop =
+      image.naturalHeight - sourceHeight;
+
     sourceY =
-      (image.naturalHeight - sourceHeight) / 2;
+      availableCrop * 0.12;
   }
 
   ctx.drawImage(
